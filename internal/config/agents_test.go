@@ -17,7 +17,7 @@ func isClaudeCmd(cmd string) bool {
 func TestBuiltinPresets(t *testing.T) {
 	t.Parallel()
 	// Ensure all built-in presets are accessible
-	presets := []AgentPreset{AgentClaude, AgentGemini, AgentCodex, AgentCursor, AgentAuggie, AgentAmp, AgentOpenCode, AgentCopilot, AgentPi, AgentOmp}
+	presets := []AgentPreset{AgentClaude, AgentGemini, AgentCodex, AgentCursor, AgentAuggie, AgentAmp, AgentOpenCode, AgentCopilot, AgentPi, AgentOmp, AgentHermes}
 
 	for _, preset := range presets {
 		info := GetAgentPreset(preset)
@@ -55,6 +55,7 @@ func TestGetAgentPresetByName(t *testing.T) {
 		{"copilot", AgentCopilot, false},   // Built-in GitHub Copilot CLI agent
 		{"pi", AgentPi, false},             // Pi Coding Agent
 		{"omp", AgentOmp, false},           // Oh My Pi
+		{"hermes", AgentHermes, false},     // Hermes Agent CLI
 		{"unknown", "", true},
 	}
 
@@ -138,6 +139,7 @@ func TestIsKnownPreset(t *testing.T) {
 		{"copilot", true},   // Built-in GitHub Copilot CLI agent
 		{"pi", true},        // Pi Coding Agent
 		{"omp", true},       // Oh My Pi
+		{"hermes", true},    // Hermes Agent CLI
 		{"unknown", false},
 		{"chatgpt", false},
 	}
