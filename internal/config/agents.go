@@ -36,6 +36,9 @@ const (
 	// AgentOmp is Oh My Pi (OMP) — Pi fork with hook-based lifecycle.
 	// Inspired by github.com/ProbabilityEngineer/pi-mono gastown integration.
 	AgentOmp AgentPreset = "omp"
+	// AgentHermes is Hermes Agent by Nous Research — self-improving AI agent
+	// with built-in learning loop, skills system, and multi-platform messaging.
+	AgentHermes AgentPreset = "hermes"
 )
 
 // AgentPresetInfo contains the configuration details for an agent preset.
@@ -361,6 +364,28 @@ var builtinPresets = map[AgentPreset]*AgentPresetInfo{
 		NonInteractive: &NonInteractiveConfig{
 			PromptFlag: "--prompt",
 		},
+	},
+	AgentHermes: {
+		Name:                AgentHermes,
+		Command:             "hermes",
+		Args:                []string{"--yolo"},
+		ProcessNames:        []string{"hermes", "python"},
+		SessionIDEnv:        "",
+		ResumeFlag:          "--resume",
+		ContinueFlag:        "--continue",
+		ResumeStyle:         "flag",
+		SupportsHooks:       false,
+		SupportsForkSession: false,
+		NonInteractive: &NonInteractiveConfig{
+			Subcommand: "chat",
+			PromptFlag: "-q",
+		},
+		// Runtime defaults
+		PromptMode:        "arg",
+		ConfigDirEnv:      "HERMES_HOME",
+		ReadyPromptPrefix: "❯ ",
+		ReadyDelayMs:      5000,
+		InstructionsFile:  "AGENTS.md",
 	},
 }
 

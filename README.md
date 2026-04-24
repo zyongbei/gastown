@@ -344,7 +344,7 @@ gt feed                     # Real-time activity feed (TUI)
 gt feed --problems          # Start in problems view (stuck agent detection)
 ```
 
-**Built-in agent presets**: `claude`, `gemini`, `codex`, `cursor`, `auggie`, `amp`
+**Built-in agent presets**: `claude`, `gemini`, `codex`, `cursor`, `auggie`, `amp`, `opencode`, `copilot`, `pi`, `omp`, `hermes`
 
 ### Convoy (Work Tracking)
 
