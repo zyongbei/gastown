@@ -7,6 +7,41 @@
 Gas Town agents coordinate via mail messages routed through the beads system.
 Mail uses `type=message` beads with routing handled by `gt mail`.
 
+## Do agents collaborate via "mailbox" communication?
+
+Yes — but with two channels, and only one is mailbox-backed:
+
+1. **Persistent mail (`gt mail`)**  
+   - Implemented as beads (`type=message`) in Dolt-backed storage  
+   - Supports inbox/read/ack flows and survives agent restarts  
+   - Used for structured protocol events (handoff, merge lifecycle, escalation)
+
+2. **Ephemeral nudge (`gt nudge`)**  
+   - Sends reminders directly to the target tmux session  
+   - No bead writes, no Dolt commits, no durable mailbox record  
+   - Preferred for routine coordination/status pings
+
+### Efficiency characteristics
+
+- **Mail is durable but expensive**: each `gt mail send` creates persistent data and
+  at least one Dolt commit.
+- **Nudge is lightweight**: near-zero storage overhead, but messages are lost if the
+  target session is dead.
+- **Recommended strategy**: default to `gt nudge`; use `gt mail` only when messages
+  must survive session death or require auditable, structured protocol handling.
+
+### Pros and cons
+
+**Pros**
+- Reliable cross-session coordination for critical workflows
+- Clear, parseable protocol for role-to-role automation
+- Auditable history for debugging and accountability
+
+**Cons**
+- Overusing mail pollutes Dolt history and increases storage/commit churn
+- Persistent channel has higher write/read overhead than nudge
+- If used for routine chatter, operational signal-to-noise degrades
+
 ## Message Types
 
 ### POLECAT_DONE
